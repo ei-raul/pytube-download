@@ -6,7 +6,7 @@ Aplicação web em Streamlit para baixar vídeos do YouTube com seleção de qua
 - Carregamento de informações do vídeo via URL
 - Visualização de thumbnail, título, autor, duração e visualizações
 - Seleção de qualidade/formato disponível
-- Download do vídeo para a pasta `Downloads`
+- Download do vídeo para a pasta `Downloads` (local) ou `/tmp/pytube-downloads` (Streamlit Cloud)
 - Botão para salvar o arquivo diretamente no navegador
 
 ## Tecnologias
@@ -51,3 +51,15 @@ Depois, abra no navegador o endereço exibido no terminal (normalmente `http://l
 ## Observações
 - Use a ferramenta apenas para conteúdos que você tenha autorização para baixar.
 - Alguns vídeos podem ter restrições de download.
+
+## Deploy no Streamlit Cloud
+- O app usa `/tmp/pytube-downloads` no Streamlit Cloud para evitar falhas de escrita em `~/Downloads`.
+- Erros `HTTP 403` podem ocorrer por bloqueio do YouTube ao IP compartilhado do ambiente cloud.
+- O app já inclui retry automático e mensagem de erro explicativa para esse cenário.
+
+## Manutenção de dependências com `uv`
+Para atualizar o `pytubefix` e regenerar lockfile:
+```bash
+uv lock --upgrade-package pytubefix
+uv sync
+```
